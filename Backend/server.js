@@ -50,9 +50,9 @@ const fileFilter = (req, file, cb) => {
   } else {
     cb(
       new Error(
-        "Invalid file type. Supported formats: MP3, WAV, FLAC, WebM, AIFF, AAC, OGG."
+        "Invalid file type. Supported formats: MP3, WAV, FLAC, WebM, AIFF, AAC, OGG.",
       ),
-      false
+      false,
     );
   }
 };
@@ -143,11 +143,13 @@ Return only the JSON structure defined in the schema.
           properties: {
             genre: {
               type: Type.STRING,
-              description: "Primary musical genre (e.g., Apala, Fuji, Jazz, Hip-hop, Pop). Use specific genre names, not generic terms.",
+              description:
+                "Primary musical genre. Use specific genre names, not generic terms.",
             },
             culturalOrigin: {
               type: Type.STRING,
-              description: "Cultural or regional origin (e.g., 'Yoruba (Nigeria)', 'West African', 'Western', 'Latin American'). Use 'N/A' if not culturally specific. This is for backend tracking only.",
+              description:
+                "Cultural or regional origin (e.g., 'Yoruba (Nigeria)', 'West African', 'Western', 'Latin American'). Use 'N/A' if not culturally specific. This is for backend tracking only.",
             },
             subgenre: {
               type: Type.STRING,
@@ -168,15 +170,18 @@ Return only the JSON structure defined in the schema.
                 },
                 instrumentation: {
                   type: Type.STRING,
-                  description: "Key instruments detected. For African music, specifically identify: talking drums/dundun, agogo, shekere, djembe, log drums, shakers, or other traditional African percussion. For other genres, list the primary instruments.",
+                  description:
+                    "Key instruments detected. For African music, specifically identify: talking drums/dundun, agogo, shekere, djembe, log drums, shakers, or other traditional African percussion. For other genres, list the primary instruments.",
                 },
                 rhythm: {
                   type: Type.STRING,
-                  description: "Rhythm pattern description. For African music, note polyrhythmic patterns, call-and-response structures, and specific rhythmic characteristics.",
+                  description:
+                    "Rhythm pattern description. For African music, note polyrhythmic patterns, call-and-response structures, and specific rhythmic characteristics.",
                 },
                 harmonic: {
                   type: Type.STRING,
-                  description: "Harmonic characteristics (e.g., minimal, complex, modal, tonal)",
+                  description:
+                    "Harmonic characteristics (e.g., minimal, complex, modal, tonal)",
                 },
               },
               required: ["tempo", "instrumentation", "rhythm", "harmonic"],
@@ -187,7 +192,13 @@ Return only the JSON structure defined in the schema.
                 "Detailed expert analysis explaining the genre classification. Focus on musical characteristics like tempo, instrumentation, rhythm patterns, harmonic structure, and overall musical style. Explain why this specific genre was chosen over alternatives.",
             },
           },
-          required: ["genre", "culturalOrigin", "confidence", "acousticAnalysis", "reasoning"],
+          required: [
+            "genre",
+            "culturalOrigin",
+            "confidence",
+            "acousticAnalysis",
+            "reasoning",
+          ],
         },
       },
     });
@@ -233,7 +244,8 @@ app.use((err, req, res, next) => {
     if (err.code === "LIMIT_FILE_SIZE") {
       return res.status(400).json({
         success: false,
-        error: "File size too large. Maximum size is 20MB for in-memory processing.",
+        error:
+          "File size too large. Maximum size is 20MB for in-memory processing.",
       });
     }
     return res.status(400).json({
@@ -254,7 +266,7 @@ app.listen(PORT, () => {
   console.log(
     `🔑 Gemini API Key: ${
       process.env.GEMINI_API_KEY ? "✓ Configured" : "✗ Missing"
-    }`
+    }`,
   );
   console.log(`📡 Health check: http://localhost:${PORT}/api/health`);
 });
